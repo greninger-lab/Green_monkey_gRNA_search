@@ -30,7 +30,7 @@ for (i in 1:length(gecko_a[[1]]$rname)){
   temp_c<-paste0(gecko_a[[1]]$seq[i], 'CGG')
   temp_t<-paste0(gecko_a[[1]]$seq[i], 'TGG')
   temp_g<-paste0(gecko_a[[1]]$seq[i], 'GGG')
-  
+    
   if(grepl(temp_dna_seq, temp_a) |grepl(temp_dna_seq, temp_c) | grepl(temp_dna_seq, temp_t) | grepl(temp_dna_seq, temp_g)){ 
     with_pam_names<-append(with_pam_names, gecko_a[[1]]$qname[i])
     with_pam_seq<-append(with_pam_seq, temp_dna_seq)
