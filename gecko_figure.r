@@ -106,14 +106,14 @@ pam_vs_not
 ggsave(plot = pam_vs_not,'frequencies_by_sample_no_miRNA.pdf', height =3, width = 5)
 
 
-#combined_no_mirna$freq<-as.factor(combined_no_mirna$pam)
 
-gecko_origina_nomirna<-ggplot(combined_no_mirna, aes( x = pam, y = 1))  + 
+
+gecko_origina_nomirna<-ggplot(combined_no_mirna, aes( x = pam, y = 1)) + 
   geom_bar(stat = "identity", aes(fill = as.factor(freq))) + 
-  geom_text(aes(label=freq, y = freq), size=3) + 
+  #geom_text(aes(label=freq, y = freq), size=3) + 
   theme_classic() + 
   theme(legend.title = element_blank()) + 
-  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+  #geom_label(aes(label = freq),position = position_stack(vjust = 0.5),size = 2.75,color = 'white') + 
   scale_fill_brewer(palette="Set2") +
   #xlim(c(0,25000)) +
   #scale_y_continuous(breaks = myBreaks, limits = c(0,25000))+
@@ -144,5 +144,27 @@ ggsave(plot = gecko_original,'3_column_frequencies.pdf', height =3, width = 3)
 
 sum(combined_no_mirna$freq[combined_no_mirna$pam=='Matched']) + length(combined_no_mirna$freq[combined_no_mirna$pam=='Matched' & combined_no_mirna$freq==0]) 
 sum(combined_no_mirna$freq[combined_no_mirna$pam=='Matched + PAM']) + length(combined_no_mirna$freq[combined_no_mirna$pam=='Matched + PAM' & combined_no_mirna$freq==0]) 
+
+
+summary_table<-t(data.frame(table(gecko_original_combined$freq)))
+summary_table<-rbind(summary_table,t(data.frame(table(exact_match_gene_counts$freq))[2]))
+summary_table<-rbind(summary_table,t(data.frame(table(with_pam_genes_frequency$freq))[2]))
+rownames(summary_table)<-c('matches','original','matched','matched with pam')
+
+write.csv(summary_table, 'matches_summarized.csv')
+write.csv(combined, 'all_gene_counts.csv')
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
