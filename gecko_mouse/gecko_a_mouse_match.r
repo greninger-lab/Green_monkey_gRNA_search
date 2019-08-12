@@ -49,7 +49,7 @@ for (i in 1:length(gecko_b[[1]]$rname)){
     with_pam_names<-append(with_pam_names, gecko_b[[1]]$qname[i])
     with_pam_seq<-append(with_pam_seq, temp_dna_seq)
   }
-  if(grepl(temp_nuc_rev,revcomp)){ 
+  else if(grepl(temp_nuc_rev,revcomp)){ 
     #print('rc')
     with_pam_names<-append(with_pam_names, gecko_b[[1]]$qname[i])
     with_pam_seq<-append(with_pam_seq, temp_dna_seq)
@@ -64,6 +64,6 @@ with_pam<-data.frame(with_pam_names,with_pam_seq)
 withoutpam<-data.frame(without_pam_name, without_pam_seq)
 
 write.csv(with_pam,'gecko_mouse_a_with_pam.csv')
-write.csv(withoutpam, 'gecko_mousea_without_pam.csv')
+write.csv(withoutpam, 'gecko_mouse_a_without_pam.csv')
 with_pam_names_rc
 

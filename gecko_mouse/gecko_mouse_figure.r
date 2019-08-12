@@ -27,6 +27,9 @@ gecko_original_combined$pam<-'Original'
 colnames(gecko_original_combined)<-c('gene','freq','type','pam')
 gecko_original_unique<-unique(gecko_original_combined$gene)
 
+gecko_original_combined$gene<-as.character(gecko_original_combined$gene)
+gecko_original_combined$freq<-as.numeric(as.character(gecko_original_combined$freq))
+
 #gecko with pam
 gecko_a_with_pam<-read.csv('/Users/gerbix/Documents/vikas/gecko_green_monkey/gecko_mouse/gecko_mouse_a_with_pam.csv')
 gecko_b_with_pam<-read.csv('/Users/gerbix/Documents/vikas/gecko_green_monkey/gecko_mouse/gecko_mouse_b_with_pam.csv')
@@ -43,23 +46,32 @@ with_pam_genes_frequency$type<-'RNA'
 with_pam_genes_frequency$type[mirna]<-'miRNA'
 with_pam_genes_frequency$pam<-'Matched + PAM'
 colnames(with_pam_genes_frequency)<-c('gene','freq','type','pam')
+with_pam_genes_frequency$gene<-as.character(with_pam_genes_frequency$gene)
+with_pam_genes_frequency$freq<-as.numeric(as.character(with_pam_genes_frequency$freq))
+
+
+
 
 #gecko exact matches without pam
-exact_match_gene_counts<-read.csv('/Users/gerbix/Documents/vikas/gecko_green_monkey/gecko_mouse/mouse_exact_match.txt', sep = ' ', header = FALSE)
+exact_match_gene_counts<-data.frame(table(read.csv('/Users/gerbix/Documents/vikas/gecko_green_monkey/gecko_mouse/mouse_exact_gene_matches.txt', header = FALSE, colClasses = "character")))
 #exact_match_gene_counts<-exact_match_gene_counts[,c(4,5)]
 #adding in any 0s (anything in the original that isn't in this list)
-exact_genes_0<-data.frame(gecko_original_unique[which(as.character(gecko_original_unique) %!in% unique(as.character(exact_match_gene_counts$V2)))])
-colnames(exact_genes_0)[1]<-'V2'
-exact_genes_0$V1<-0
+exact_genes_0<-data.frame(gecko_original_unique[which(as.character(gecko_original_unique) %!in% unique(as.character(exact_match_gene_counts$Var1)))])
+colnames(exact_genes_0)[1]<-'Var1'
+exact_genes_0$Freq<-0
 #colnames(exact_genes_0)[2]<-'V1'
 exact_match_gene_counts<-rbind(exact_match_gene_counts,exact_genes_0)
 
 exact_match_gene_counts$type<-'RNA'
-exact_mirna<-which(grepl('mir',exact_match_gene_counts$V2))
+exact_mirna<-which(grepl('mir',exact_match_gene_counts$Var1))
 exact_match_gene_counts$type[exact_mirna]<-'miRNA'
 exact_match_gene_counts$pam<-'Matched'
-colnames(exact_match_gene_counts)<-c('freq','gene','type','pam')
+colnames(exact_match_gene_counts)<-c('gene','freq','type','pam')
 exact_match_gene_counts<-exact_match_gene_counts[,c(2,1,3,4)]
+#exact_match_gene_counts[,1]<-as.factor(exact_match_gene_counts[,1])
+exact_match_gene_counts$freq<-as.numeric(as.character(exact_match_gene_counts$freq))
+exact_match_gene_counts$freq<-as.numeric(as.character(exact_match_gene_counts$freq))
+
 
 
 combined<-rbind(gecko_original_combined,with_pam_genes_frequency,exact_match_gene_counts)
@@ -95,7 +107,7 @@ ggsave(plot = pam_vs_not,'frequencies_by_sample.pdf', height =3, width = 5)
 #by frequency without miRNA 
 combined_no_mirna<-combined[-which(combined$type=='miRNA'),]
 
-pam_vs_not<-ggplot(, aes( x = freq)) + 
+pam_vs_not<-ggplot(combined_no_mirna, aes( x = freq)) + 
   geom_histogram(aes(fill = as.factor(pam))) + 
   theme_classic() + 
   theme(legend.title = element_blank()) + 
@@ -122,7 +134,7 @@ gecko_origina_nomirna<-ggplot(combined_no_mirna, aes( x = pam, y = 1)) +
   xlab(NULL) + 
   ylab('Counts')
 gecko_origina_nomirna
-ggsave(plot = gecko_origina_nomirna,'no_mirna_3_column_frequencies.pdf', height =3, width = 3)
+ggsave(plot = gecko_origina_nomirna,'no_mirna_mouse_gm_gecko.pdf', height =3, width = 3)
 
 combined<-combined[combined$freq!=8,]
 
@@ -139,7 +151,7 @@ gecko_original<-ggplot(combined, aes( x = pam, y = 1))  +
   xlab(NULL) + 
   ylab('Counts')
 gecko_original
-ggsave(plot = gecko_original,'3_column_frequencies.pdf', height =3, width = 3)
+ggsave(plot = gecko_original,'mouse_gm_gecko.pdf', height =3, width = 3)
 
 
 
