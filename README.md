@@ -1,4 +1,4 @@
-# Looking for GeCKO human gRNAs in the Green monkey genome
+# Looking for matching human GeCKO gRNAs in the Green monkey genome
 
 # #Designing a novel Green monkey gRNA library is expensive, but an existing Human one may do the trick
 The GeCKO v2 DNA plasmid library consists of over 100,000 gRNAs for to knock out each gene in the Human/Mouse genome. VERO cells 
