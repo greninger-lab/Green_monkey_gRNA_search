@@ -23,31 +23,45 @@ with_pam_seq_rc<-c()
 without_pam_seq<-c()
 without_pam_name<-c()
 for (i in 1:length(gecko_b[[1]]$rname)){ 
-  progress(i,31560)
+  progress(i,31820)
   temp<-which( dna_names == gecko_b[[1]]$rname[i])
+  #temp_dna_seq is the dna string from the reference
   temp_dna_seq<-as.character(substr(dna[temp,], gecko_b[[1]]$pos[i], (gecko_b[[1]]$pos[i] + 22)))
-  revcomp<-(reverseComplement(DNAStringSet(as.character(substr(dna[temp,], gecko_b[[1]]$pos[i], (gecko_b[[1]]$pos[i] + 22))))))
-  #print(as.character(revcomp[1]))
-  #print(temp_dna_seq)
-  temp_a<-paste0(gecko_b[[1]]$seq[i], 'AGG')
-  temp_c<-paste0(gecko_b[[1]]$seq[i], 'CGG')
-  temp_t<-paste0(gecko_b[[1]]$seq[i], 'TGG')
-  temp_g<-paste0(gecko_b[[1]]$seq[i], 'GGG')
+  #revcomp is the reverse complement dna string from the reference
+  revcomp<-as.character(as.character(substr(dna[temp,], gecko_b[[1]]$pos[i] -3 , (gecko_b[[1]]$pos[i] + 20))))
+  # print(temp_dna_seq)
+  #  print((revcomp))
+  # 
+  # temp_a<-paste0(gecko_b[[1]]$seq[i], 'AGG')
+  # temp_c<-paste0(gecko_b[[1]]$seq[i], 'CGG')
+  # temp_t<-paste0(gecko_b[[1]]$seq[i], 'TGG')
+  # temp_g<-paste0(gecko_b[[1]]$seq[i], 'GGG')
+  # 
+  temp_nuc<-paste0(gecko_b[[1]]$seq[i], '.GG')
+  # temp_a_rev<-paste0('CCT',gecko_b[[1]]$seq[i])
+  # temp_c_rev<-paste0('CCG',gecko_b[[1]]$seq[i])
+  # temp_t_rev<-paste0('CCC',gecko_b[[1]]$seq[i])
+  # temp_g_rev<-paste0('CCA',gecko_b[[1]]$seq[i])
+  temp_nuc_rev<-paste0('CC.',gecko_b[[1]]$seq[i])
   
-  if(grepl(temp_dna_seq, temp_a) |grepl(temp_dna_seq, temp_c) | grepl(temp_dna_seq, temp_t) | grepl(temp_dna_seq, temp_g)){ 
+  #if(grepl(temp_a,temp_dna_seq) |grepl(temp_c,temp_dna_seq) | grepl(temp_t,temp_dna_seq) | grepl(temp_g,temp_dna_seq)){ 
+  if(grepl(temp_nuc,temp_dna_seq)){
     #print('ok')
     with_pam_names<-append(with_pam_names, gecko_b[[1]]$qname[i])
     with_pam_seq<-append(with_pam_seq, temp_dna_seq)
   }
-  else if(grepl(revcomp, temp_a) |grepl(revcomp, temp_c) | grepl(revcomp, temp_t) | grepl(revcomp, temp_g)){ 
+  else if(grepl(temp_nuc_rev,revcomp)){ 
     #print('rc')
-    with_pam_names_rc<-append(with_pam_names_rc, gecko_b[[1]]$qname[i])
-    with_pam_seq_rc<-append(with_pam_seq_rc, temp_dna_seq)
+    with_pam_names<-append(with_pam_names, gecko_b[[1]]$qname[i])
+    with_pam_seq<-append(with_pam_seq, temp_dna_seq)
   }
   else{ 
+    # print(temp_dna_seq)
+    # print(revcomp)
+    # print('')
     without_pam_name<-append(without_pam_name, gecko_b[[1]]$qname[i])
-    without_pam_seq<-append(without_pam_seq, temp_dna_seq)
-    }
+    without_pam_seq<-append(without_pam_seq, revcomp)
+  }
 }
 
 with_pam<-data.frame(with_pam_names,with_pam_seq)
