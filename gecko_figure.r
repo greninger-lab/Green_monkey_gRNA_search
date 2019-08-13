@@ -114,6 +114,7 @@ gecko_origina_nomirna<-ggplot(combined_no_mirna, aes( x = pam, y = 1)) +
   theme_classic() + 
   theme(legend.title = element_blank()) + 
   #geom_label(aes(label = freq),position = position_stack(vjust = 0.5),size = 2.75,color = 'white') + 
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   scale_fill_brewer(palette="Set2") +
   #xlim(c(0,25000)) +
   #scale_y_continuous(breaks = myBreaks, limits = c(0,25000))+
@@ -121,7 +122,7 @@ gecko_origina_nomirna<-ggplot(combined_no_mirna, aes( x = pam, y = 1)) +
   xlab(NULL) + 
   ylab('Counts')
 gecko_origina_nomirna
-ggsave(plot = gecko_origina_nomirna,'no_mirna_3_column_frequencies.pdf', height =3, width = 3)
+ggsave(plot = gecko_origina_nomirna,'no_mirna_human_gm.pdf', height =3, width = 3)
 
 combined<-combined[combined$freq!=8,]
 
@@ -138,7 +139,7 @@ gecko_original<-ggplot(combined, aes( x = pam, y = 1))  +
   xlab(NULL) + 
   ylab('Counts')
 gecko_original
-ggsave(plot = gecko_original,'3_column_frequencies.pdf', height =3, width = 3)
+ggsave(plot = gecko_original,'human_gm.pdf', height =3, width = 3)
 
 
 
@@ -150,6 +151,7 @@ summary_table<-t(data.frame(table(gecko_original_combined$freq)))
 summary_table<-rbind(summary_table,t(data.frame(table(exact_match_gene_counts$freq))[2]))
 summary_table<-rbind(summary_table,t(data.frame(table(with_pam_genes_frequency$freq))[2]))
 rownames(summary_table)<-c('matches','original','matched','matched with pam')
+
 
 write.csv(summary_table, 'matches_summarized.csv')
 write.csv(combined, 'all_gene_counts.csv')
