@@ -12,3 +12,6 @@ the Green monkey reference genome and filtered for any gRNAs with 20 (whole sequ
 sequnces ```-NGG, CCN-``` were appended to either end of each read and grepped from the position of match in the BAM file to 
 the reference genome. The figure below shows the number of exact matches for each of the following: Original GeCKO library, 
 20 exact matches to Green monkey, and 20 exact matches to Green monkey with a PAM sequence. 
+
+
+bowtie2 command:   ```bowtie2 -x /db/green_monkey/green_monkey -f -U <in.fasta> -p 42 --no-unal --xeq -S <out>.sam```
