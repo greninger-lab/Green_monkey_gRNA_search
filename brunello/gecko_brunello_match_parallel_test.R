@@ -2,7 +2,7 @@ library(Rsamtools)
 library(Biostrings)
 library(svMisc)
 library(foreach)
-library(doMC)
+library(doParallel)
 
 setwd('/Users/gerbix/Documents/vikas/gecko_green_monkey/brunello')
 
@@ -25,10 +25,12 @@ with_pam_seq_rc<-c()
 without_pam_seq<-c()
 without_pam_name<-c()
 
-registerDoMC(8)
-foreach (i=(1:length(gecko_brunello[[1]]$rname))) %do% { 
-  #print(i)
-  progress(i,65596)
+#registerDoMC(1)
+cl <- makeCluster(8)
+registerDoParallel(cores=8)
+foreach (i=(1:length(gecko_brunello[[1]]$rname))) %dopar% { 
+  print(i)
+  #progress(i,65596)
   temp<-which( dna_names == gecko_brunello[[1]]$rname[i])
   #temp_dna_seq is the dna string from the reference
   temp_dna_seq<-as.character(substr(dna[temp,], gecko_brunello[[1]]$pos[i], (gecko_brunello[[1]]$pos[i] + 22)))

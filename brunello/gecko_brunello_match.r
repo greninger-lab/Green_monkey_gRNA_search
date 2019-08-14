@@ -67,6 +67,6 @@ for (i in 1:length(gecko_brunello[[1]]$rname)){
 with_pam<-data.frame(with_pam_names,with_pam_seq)
 withoutpam<-data.frame(without_pam_name, without_pam_seq)
 
-write.csv(with_pam,'gecko_brunello_with_pam.csv')
-write.csv(withoutpam, 'gecko_brunello_without_pam.csv')
+write.csv(with_pam,'gm_brunello_with_pam.csv')
+write.csv(withoutpam, 'gm_brunello_without_pam.csv')
 

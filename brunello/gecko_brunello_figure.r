@@ -1,7 +1,7 @@
 library(ggplot2)
 library(wesanderson)
 
-setwd('/Users/gerbix/Documents/vikas/gecko_green_monkey')
+setwd('/Users/gerbix/Documents/vikas/gecko_green_monkey/brunello')
 '%!in%' <- function(x,y)!('%in%'(x,y))
 myBreaks <- function(x){
   breaks <- c(min(x),median(x),max(x))
